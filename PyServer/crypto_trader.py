@@ -8,12 +8,15 @@ ALPACA_API_SECRET_KEY = "aR47EfBnERxsio14AhedTU0KzywJzGxTQT6eFkKq"
 trading_client = TradingClient(ALPACA_API_KEY_ID, ALPACA_API_SECRET_KEY, paper=True)
 
 
+import requests
+
 def get_current_price(symbol):
-    url = f"https://api.cryptowat.ch/markets/bitstamp/{symbol}/price"
+    url = f"https://api.cryptowat.ch/markets/binance/{symbol.lower()}usdt/price"
     response = requests.get(url)
     data = response.json()
     price = data["result"]["price"]
     return price
+
 
 def traderFunct(symbol, whatToDo, amount):
     # Set up trading client and market order requests
@@ -51,6 +54,7 @@ def traderFunct(symbol, whatToDo, amount):
             print(f"Sold {amount} {symbol}")
         else:
             print(f"Not enough {symbol} in portfolio to sell {amount}. Current position is {position}")
-
+    else :
+        print(f"Holding {symbol}")
 
 

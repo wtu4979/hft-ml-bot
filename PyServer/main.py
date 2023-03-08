@@ -1,28 +1,23 @@
-from PyServer.crypto_trader import traderFunct
-from PyServer.machineModel import make_prediction
-from alpaca_script import functionalDriver, getAssetInfo, get_todays_trades_crypto, get_current_price
+from PyServer.crypto_trader import traderFunct, get_current_price
+from PyServer.dataToCsv import get_crypto_data
+from PyServer.machineModel import make_prediction, train_model
+from PyServer.schedulerRedux import run_N_times_every_S_seconds_with_function
 
 
 def main():
-    # getAssetInfo()
-    # Example usage: get today's Bitcoin trades
-    # get_todays_trades_crypto('BTC/USD')
-    # functionalDriver(5)
-
-    # symbol = "btcusd"
-    # price = get_current_price(symbol)
-    # print(f"The current price of {symbol.upper()} is {price:.2f}")
-    #
-    # current_price = price
-    # recommendation = make_prediction(current_price)
-    # print(f"The recommendation is to {recommendation}")
-
     # Example usage
-    symbol = "dogeusd"
-    price = get_current_price(symbol)
-    print(price)
-    traderFunct("DOGE", "buy", 547)
-    print(f"Current price of DOGE: {price}")
+    crypto_data = get_crypto_data("doge")
+    crypto_data.to_csv("crypto_data.csv")
+    print(crypto_data)
+
+    model = train_model("crypto_data.csv")
+
+    # needs to get done every X minute
+    run_N_times_every_S_seconds_with_function(100, 30, model, 'doge')
+
+
+
+
 
 
 if __name__ == '__main__':
