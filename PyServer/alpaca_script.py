@@ -1,22 +1,16 @@
 import math
 import time
 from datetime import datetime, timedelta
-import datetime as dt
-import pytz
-import pandas as pd
-from alpaca.broker import MarketOrderRequest
-from alpaca.data import TimeFrame, StockHistoricalDataClient
-from alpaca.data.historical import CryptoHistoricalDataClient
-from alpaca.data.requests import CryptoBarsRequest, StockLatestQuoteRequest
-from alpaca.trading import TradingClient
-
-from alpaca.data.historical import CryptoHistoricalDataClient
-from alpaca.data.requests import CryptoBarsRequest
-from alpaca.data.timeframe import TimeFrame
-from alpaca.data.requests import CryptoBarsRequest
-
 from pprint import pprint
+
 import requests
+from alpaca.broker import MarketOrderRequest
+from alpaca.data import StockHistoricalDataClient
+from alpaca.data.historical import CryptoHistoricalDataClient
+from alpaca.data.requests import CryptoBarsRequest
+from alpaca.data.requests import StockLatestQuoteRequest
+from alpaca.data.timeframe import TimeFrame
+from alpaca.trading import TradingClient
 
 NORMALIZED_SYMBOL = "DOGEUSD"
 SYMBOL = "DOGE/USD"
