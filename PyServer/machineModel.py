@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report,confusion_matrix
+
 
 
 def train_model(csv_path):
@@ -22,13 +24,18 @@ def train_model(csv_path):
     y = df["Target"]
 
     # split the data into training and testing sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
     # create the random forest classifier
     rf = RandomForestClassifier(n_estimators=100, random_state=42)
 
     # fit the model on the training data
     rf.fit(X_train, y_train)
+
+    # Evaluate model performance
+    y_pred = rf.predict(X_test)
+    print(confusion_matrix(y_test, y_pred))
+    print(classification_report(y_test, y_pred, zero_division=1))
 
     return rf
 
@@ -55,3 +62,4 @@ def make_prediction(current_price, model):
         return "Hold"
     else:
         return "Sell"
+
