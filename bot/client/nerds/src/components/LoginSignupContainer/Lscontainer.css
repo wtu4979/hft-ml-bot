@@ -1,0 +1,44 @@
+.login-signup-container{
+    display: grid;
+    grid-template-columns: 70% 30% 70%;
+    width: 80%;
+    height: 600px;
+    background-color: rgba(253, 249, 249, 0.5);
+    padding: 0px;
+    margin-top: 50px;
+    margin-left:auto;
+    margin-right: auto;
+    border: 1px solid black;
+    border-radius: 25px;
+    overflow: hidden;
+    transition: 0.3s linear;
+}
+.login-signup-container.active{
+    grid-template-columns:0% 30% 70%;
+    transition: 0.3s linear;
+}
+.login-signup-container .side-div{
+    height:100%;
+    width:100%;
+    display: flex;
+    align-items:center;
+    background: linear-gradient(rgba(253,249,249,0.5),(253,249,249,0.5));
+    background-image:url("stock.jpg");
+    background-size:cover;
+    background-position:center;
+    justify-content: center;
+}
+.login-signup-container .side-div button{
+    padding: 10px 20px;
+    background-color: black;
+    color: #fff;
+    border: 1px solid black;
+    border-radius: 25%;
+    cursor:pointer;
+    font-size: 0.99rem;
+    transition: 0.2s linear;
+}
+.login-signup-container .side-div button:hover{
+    background-color: #1C3738; 
+    border: 1px solid #1C3738;
+}
