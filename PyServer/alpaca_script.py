@@ -1,14 +1,16 @@
 import math
 import time
 from datetime import datetime, timedelta
-
-from alpaca.broker import MarketOrderRequest
-from alpaca.data import TimeFrame, StockHistoricalDataClient
-from alpaca.data.historical import CryptoHistoricalDataClient
-from alpaca.data.requests import CryptoBarsRequest, StockLatestQuoteRequest
-from alpaca.trading import TradingClient
-
 from pprint import pprint
+
+import requests
+from alpaca.broker import MarketOrderRequest
+from alpaca.data import StockHistoricalDataClient
+from alpaca.data.historical import CryptoHistoricalDataClient
+from alpaca.data.requests import CryptoBarsRequest
+from alpaca.data.requests import StockLatestQuoteRequest
+from alpaca.data.timeframe import TimeFrame
+from alpaca.trading import TradingClient
 
 NORMALIZED_SYMBOL = "DOGEUSD"
 SYMBOL = "DOGE/USD"
@@ -102,6 +104,7 @@ def functionalDriver(howlong):
         time.sleep(get_pause())
         print("*" * 20)
 
+
 def getAssetInfo():
     multisymbol_request_params = StockLatestQuoteRequest(symbol_or_symbols=["SPY", "GLD", "TLT"])
 
@@ -110,3 +113,44 @@ def getAssetInfo():
     gld_latest_ask_price = latest_multisymbol_quotes["GLD"]
 
     pprint(gld_latest_ask_price)
+
+
+def get_todays_trades_crypto(symbol):
+    # Set the API endpoint and headers
+    url = 'https://data.alpaca.markets/v1beta2/crypto'
+    headers = {
+        'APCA-API-KEY-ID': 'PKLSXDNKJ2JE3PR6I61W',
+        'APCA-API-SECRET-KEY': 'aR47EfBnERxsio14AhedTU0KzywJzGxTQT6eFkKq'
+    }
+
+    # Set the request parameters
+    params = {
+        'symbol': 'BTCUSD',
+        'start': '2020-01-01T00:00:00-00:00',
+        'end': '2022-03-07T00:00:00-00:00'
+    }
+    # Send the request and get the response
+    response = requests.get(url, headers=headers, params=params)
+
+    # Check if the request was successful
+    if response.status_code == 200:
+        # Convert the response to a dictionary
+        data = response.json()
+
+        # Get the historical prices from the response
+        prices = data['BTCUSD']
+
+        # Print the prices
+        for price in prices:
+            print(price)
+    else:
+        # Print the error message
+        print(f'HELLO _ Request failed with status code {response.status_code}')
+
+
+def get_current_price(symbol):
+    url = f"https://api.cryptowat.ch/markets/bitstamp/{symbol}/price"
+    response = requests.get(url)
+    data = response.json()
+    price = data["result"]["price"]
+    return price
