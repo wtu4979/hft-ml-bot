@@ -1,5 +1,11 @@
+import datetime
+import logging
+import os
+import random
+from logging.handlers import TimedRotatingFileHandler
+
 import requests
-from alpaca.broker import MarketOrderRequest
+import alpaca.broker
 from alpaca.trading import TradingClient
 
 ALPACA_API_KEY_ID = "PKLSXDNKJ2JE3PR6I61W"
@@ -7,8 +13,22 @@ ALPACA_API_SECRET_KEY = "aR47EfBnERxsio14AhedTU0KzywJzGxTQT6eFkKq"
 
 trading_client = TradingClient(ALPACA_API_KEY_ID, ALPACA_API_SECRET_KEY, paper=True)
 
+def setup_logger():
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(asctime)s - %(message)s')
 
-import requests
+    log_directory = "logs"
+    if not os.path.exists(log_directory):
+        os.mkdir(log_directory)
+    log_filename = os.path.join(log_directory, datetime.datetime.now().strftime('%Y-%m-%d') + ".log")
+    file_handler = TimedRotatingFileHandler(log_filename, when="midnight", backupCount=7)
+    file_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)
+
+    return logger
+
+logger = setup_logger()
 
 def get_current_price(symbol):
     url = f"https://api.cryptowat.ch/markets/binance/{symbol.lower()}usdt/price"
@@ -17,44 +37,44 @@ def get_current_price(symbol):
     price = data["result"]["price"]
     return price
 
+def get_position(symbol):
+    positions = trading_client.get_all_positions()
+    for p in positions:
+        if p.symbol == symbol:
+            return float(p.qty)
+    return 0
 
-def traderFunct(symbol, whatToDo, amount):
-    # Set up trading client and market order requests
+def trader_function(symbol, what_to_do, amount):
     normalized_symbol = f"{symbol.upper()}USD"
     symbol = f"{symbol.upper()}/USD"
-    market_order_data_auto = MarketOrderRequest(
+    random_amount = random.randint(50, 100)
+
+    market_order_data_auto = alpaca.broker.MarketOrderRequest(
         symbol=normalized_symbol,
-        qty=amount,
+        qty=random_amount,
         side="buy",
         time_in_force="gtc",
     )
-    market_order_sell_auto = MarketOrderRequest(
+    market_order_sell_auto = alpaca.broker.MarketOrderRequest(
         symbol=normalized_symbol,
-        qty=amount,
+        qty=random_amount,
         side="sell",
         time_in_force="gtc",
     )
 
-    # Define function to get position for the given symbol
-    def get_position(symbol):
-        positions = trading_client.get_all_positions()
-        for p in positions:
-            if p.symbol == symbol:
-                return float(p.qty)
-        return 0
-
-    # Buy or sell based on whatToDo parameter
-    if whatToDo == "buy":
+    if what_to_do == "buy":
         trading_client.submit_order(order_data=market_order_data_auto)
-        print(f"Bought {amount} {symbol}")
-    elif whatToDo == "sell":
+        logger.info(f"Bought {random_amount} {symbol}. Current position is {get_position(normalized_symbol)}")
+        print(f"Bought {random_amount} {symbol}")
+    elif what_to_do == "sell":
         position = get_position(normalized_symbol)
-        if position >= amount:
+        if position >= random_amount:
             trading_client.submit_order(order_data=market_order_sell_auto)
-            print(f"Sold {amount} {symbol}")
+            logger.info(f"Sold {random_amount} {symbol}. Current position is {get_position(normalized_symbol)}")
+            print(f"Sold {random_amount} {symbol}")
         else:
-            print(f"Not enough {symbol} in portfolio to sell {amount}. Current position is {position}")
-    else :
+            logger.info(f"Not enough {symbol} in portfolio to sell {random_amount}. Current position is {get_position(normalized_symbol)}")
+            print(f"Not enough {symbol} in portfolio to sell {random_amount}. Current position is {get_position(normalized_symbol)}")
+    else:
+        logger.info(f"Holding {symbol}")
         print(f"Holding {symbol}")
-
-
