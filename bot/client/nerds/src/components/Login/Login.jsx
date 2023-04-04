@@ -16,10 +16,7 @@ const Login = () => {
     e.preventDefault();
     
     console.log(e);
-    
-    }
-    
-  const login = () => {
+
     
        axios.post('http://localhost:3001/login', 
         {email:email,password:password}).then((response) =>{
@@ -51,7 +48,7 @@ const Login = () => {
             setpasswordReg(e.target.value);}}
             value={password}
         />
-        <button type={"submit"} onClick={login}>
+        <button type={"submit"} >
           Login
         </button>
        
