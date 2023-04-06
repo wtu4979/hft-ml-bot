@@ -1,57 +1,56 @@
 import "./Login.css";
-
+import React, { useState } from "react";
 import axios from "axios";
-import {  useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
-
 const Login = () => {
-  const [password, setpasswordReg] = useState('');
-  const [email, setemailReg] = useState('');
-  const Navigate = useNavigate();
-  
-  const submitHandler = (e) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
-    e.preventDefault();
-    
-    console.log(e);
-
-    
-       axios.post('http://localhost:3001/login', 
-        {email:email,password:password}).then((response) =>{
-          console.log({response});
-          Navigate('/Dashboard');
-
+  const login = (event) => {
+    event.preventDefault();
+    axios
+      .post("http://localhost:3001/login", {
+        username: username,
+        password: password,
+      })
+      .then((response) => {
+        console.log(response);
+        const { apiKey, secretApiKey } = response.data;
+        navigate("/dashboard", {
+          state: { apiKey: apiKey, secretApiKey: secretApiKey },
         });
-  }
-
-
-
+      })
+      .catch((error) => {
+        console.error(error);
+        setErrorMessage("Invalid username or password.");
+      });
+  };
 
   return (
     <div className="login">
       <h1>Login</h1>
-      <form onSubmit={submitHandler}>
+      <form>
         <input
           type={"text"}
           placeholder={"Username"}
-          onChange= {(e)=>{
-            setemailReg(e.target.value);}}
-            value={email}
-          
+          onChange={(e) => {
+            setUsername(e.target.value);
+          }}
         />
         <input
           type={"password"}
           placeholder={"Password"}
-          onChange= {(e)=>{
-            setpasswordReg(e.target.value);}}
-            value={password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
         />
-        <button type={"submit"} >
+        <button type={"submit"} onClick={(event) => login(event)}>
           Login
         </button>
-       
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
       </form>
     </div>
   );

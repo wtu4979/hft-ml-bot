@@ -1,0 +1,7 @@
+.idea/deployment.xml
+bot/client/nerds/package-lock.json
+*.log
+*.csv
+*.pyc
+MOngoTestDb.py
+bot/client/nerds/package-lock.json
