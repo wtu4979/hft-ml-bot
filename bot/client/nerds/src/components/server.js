@@ -39,6 +39,37 @@ app.post("/login", async (req, res) => {
   }
 });
 
+
+app.post("/register", async (req, res) => {
+  print("GOT TO REGISTER");
+  const { username, password, apiKey, secretApiKey } = req.body;
+
+  try {
+    const client = await MongoClient.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    const db = client.db("AlpacaUser");
+    const users = db.collection("userData");
+
+    const existingUser = await users.findOne({ username: username });
+
+    if (existingUser) {
+      res.json({ success: false });
+    } else {
+      await users.insertOne({ username, password , apiKey, secretApiKey});
+      res.json({ success: true });
+    }
+
+    await client.close();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false });
+  }
+});
+
+
 app.listen(3001, () => {
   console.log("Server running on port 3001");
 });
