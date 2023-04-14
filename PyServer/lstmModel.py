@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -6,6 +7,12 @@ import yfinance as yf
 import pandas_ta as ta
 data = yf.download(tickers = '^RUI', start = '2012-03-11',end = '2022-07-10')
 data.head(10)
+
+# Adding indicators
+data['RSI']=ta.rsi(data.Close, length=15)
+data['EMAF']=ta.ema(data.Close, length=20)
+data['EMAM']=ta.ema(data.Close, length=100)
+data['EMAS']=ta.ema(data.Close, length=150)
 
 data['Target'] = data['Adj Close']-data.Open
 data['Target'] = data['Target'].shift(-1)
@@ -43,7 +50,7 @@ X = []
 #data_set_scaled=data_set.values
 backcandles = 30
 print(data_set_scaled.shape[0])
-for j in range(4):#data_set_scaled[0].size):#2 columns are target not X
+for j in range(8):#data_set_scaled[0].size):#2 columns are target not X
     X.append([])
     for i in range(backcandles, data_set_scaled.shape[0]):#backcandles+2
         X[j].append(data_set_scaled[i-backcandles:i, j])
@@ -96,7 +103,7 @@ import numpy as np
 #tf.random.set_seed(20)
 np.random.seed(10)
 
-lstm_input = Input(shape=(backcandles, 4), name='lstm_input')
+lstm_input = Input(shape=(backcandles, 8), name='lstm_input')
 inputs = LSTM(150, name='first_layer')(lstm_input)
 inputs = Dense(1, name='dense_layer')(inputs)
 output = Activation('linear', name='output')(inputs)
