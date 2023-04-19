@@ -3,7 +3,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from 'axios';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
+
 
 
 
@@ -60,7 +60,7 @@ const Dashboard = () => {
       }
     };
     const fetchTrades = async () => {
-      const response = await fetch("https://paper-api.alpaca.markets/v2/orders?status=all&limit=5", {
+      const response = await fetch("https://paper-api.alpaca.markets/v2/orders?status=all&limit=15", {
         method: "GET",
         headers: {
           "APCA-API-KEY-ID": apiKey,
@@ -68,6 +68,7 @@ const Dashboard = () => {
         },
       });
       const tradesInfo = await response.json();
+      console.log(tradesInfo);
       setTrades(tradesInfo);
     };
 
@@ -91,7 +92,7 @@ const Dashboard = () => {
     let totalDoge = 0;
 
     // Get the last 5 trades
-    const lastFiveTrades = trades.slice(-5);
+    const lastFiveTrades = trades.slice(-15);
 
     lastFiveTrades.forEach((trade) => {
       if (trade.symbol === "DOGE") {
@@ -141,13 +142,14 @@ const Dashboard = () => {
      
      <thead>
      <tr className="table-dark">
-                 <td colSpan="4">Recent Trades</td>
+                 <td colSpan="5">Recent Trades</td>
                </tr>
        <tr className="table-dark">
          <th scope="col">Symbol</th>
          <th scope="col">Trade</th>
          <th scope="col">Shares</th>
          <th scope="col">Share Price</th>
+         <th scope="col">Last Trade time</th>
        </tr>
      </thead>   
    
@@ -160,6 +162,7 @@ const Dashboard = () => {
                  <td>{trade.side}</td>
                  <td>{trade.qty}</td>
                  <td>{trade.filled_avg_price}</td>
+                 <td>{trade.submitted_at}</td>
                      </tr>
                ))}
              </tbody>
