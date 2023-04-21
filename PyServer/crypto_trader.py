@@ -47,34 +47,34 @@ def get_position(symbol):
 def trader_function(symbol, what_to_do, amount):
     normalized_symbol = f"{symbol.upper()}USD"
     symbol = f"{symbol.upper()}/USD"
-    random_amount = random.randint(50, 100)
+
 
     market_order_data_auto = alpaca.broker.MarketOrderRequest(
         symbol=normalized_symbol,
-        qty=random_amount,
+        qty=amount,
         side="buy",
         time_in_force="gtc",
     )
     market_order_sell_auto = alpaca.broker.MarketOrderRequest(
         symbol=normalized_symbol,
-        qty=random_amount,
+        qty=amount,
         side="sell",
         time_in_force="gtc",
     )
 
     if what_to_do == "buy":
         trading_client.submit_order(order_data=market_order_data_auto)
-        logger.info(f"Bought {random_amount} {symbol}. Current position is {get_position(normalized_symbol)}")
-        print(f"Bought {random_amount} {symbol}")
+        logger.info(f"Bought {amount} {symbol}. Current position is {get_position(normalized_symbol)}")
+        print(f"Bought {amount} {symbol}")
     elif what_to_do == "sell":
         position = get_position(normalized_symbol)
-        if position >= random_amount:
+        if position >= amount:
             trading_client.submit_order(order_data=market_order_sell_auto)
-            logger.info(f"Sold {random_amount} {symbol}. Current position is {get_position(normalized_symbol)}")
-            print(f"Sold {random_amount} {symbol}")
+            logger.info(f"Sold {amount} {symbol}. Current position is {get_position(normalized_symbol)}")
+            print(f"Sold {amount} {symbol}")
         else:
-            logger.info(f"Not enough {symbol} in portfolio to sell {random_amount}. Current position is {get_position(normalized_symbol)}")
-            print(f"Not enough {symbol} in portfolio to sell {random_amount}. Current position is {get_position(normalized_symbol)}")
+            logger.info(f"Not enough {symbol} in portfolio to sell {amount}. Current position is {get_position(normalized_symbol)}")
+            print(f"Not enough {symbol} in portfolio to sell {amount}. Current position is {get_position(normalized_symbol)}")
     else:
         logger.info(f"Holding {symbol}")
         print(f"Holding {symbol}")

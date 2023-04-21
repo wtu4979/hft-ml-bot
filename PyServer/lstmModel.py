@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import yfinance as yf
 import pandas_ta as ta
-data = yf.download(tickers = '^RUI', start = '2012-03-11',end = '2022-07-10')
+
+data = yf.download(tickers='DOGE-USD', start='2012-03-11', end='2022-07-10')
 data.head(10)
 
 # Adding indicators
@@ -120,6 +121,7 @@ for i in range(10):
 plt.figure(figsize=(16,8))
 plt.plot(y_test, color = 'black', label = 'Test')
 plt.plot(y_pred, color = 'green', label = 'pred')
+plt.title("Bfish LSTM")
 plt.legend()
 plt.show()
 
