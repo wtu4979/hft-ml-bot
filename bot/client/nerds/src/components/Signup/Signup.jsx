@@ -66,6 +66,7 @@ const Signup = () => {
         <button type={"submit"}>
           SignUp
         </button>
+         <a href="https://app.alpaca.markets/login" target={'_blank'} rel="noreferrer">Get your API Keys</a>
       </form>
       {message && <p className="message">{message}</p>}
     </div>
