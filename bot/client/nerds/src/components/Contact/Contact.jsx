@@ -6,7 +6,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 const Contact = () => {
   return (
-    <Navbar bg="light" expand="lg">
+    <><Navbar bg="light" expand="lg">
     <Container>
       <Navbar.Brand href="/dashboard">Nerds Of WallStreet</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -29,6 +29,20 @@ const Contact = () => {
       </Navbar.Collapse>
     </Container>
   </Navbar>
+  <div class="col-md-5 p-lg-5 mx-auto my-5">
+  <h1 class="display-4 font-weight-normal">Contact US</h1>
+  <p class="lead font-weight-normal">
+    Geovanny Casian
+    <br></br>casian.geovanny@csu.fullerton.edu
+    <br></br>Sergio Murguia
+    <br></br>smurguia1@csu.fullerton.edu
+    <br></br>Thomas Stanton
+    <br></br>Wilson Tu
+    <br></br>Rachael Johnson
+    <h5>Location</h5>
+    Fullerton, CA
+  </p>
+  </div></>
   )
 }
 
