@@ -3,6 +3,10 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from 'axios';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
 
 
@@ -114,15 +118,31 @@ const Dashboard = () => {
 
 
     <div class="parent">
-      <ul class="nav navbar-dark bg-dark">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page">NOWS</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/">Logout</a>
-        </li>
-      </ul>
-
+<Navbar bg="light" expand="lg">
+      <Container>
+        <Navbar.Brand href="/dashboard">Nerds Of WallStreet</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="/dashboard">Home</Nav.Link>
+           
+            <NavDropdown title="Menu" id="basic-nav-dropdown">
+            <NavDropdown.Item href="/about">About</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.2">
+                Contact us
+              </NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="https://app.alpaca.markets/login?amp_device_id=C5NudxAN0ne1ACqwaxz6iU">
+                alpaca account
+              </NavDropdown.Item>
+            </NavDropdown>
+            <Nav.Link href="/Dashboard">Username </Nav.Link>
+          </Nav>
+          
+          <Nav.Link href="/"> Logout</Nav.Link>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
 
 
 
@@ -130,7 +150,6 @@ const Dashboard = () => {
         <h1>Dashboard</h1>
       </div>
       <div class="div3">
-        <h3>Username</h3>
         <h2>{account ? `$${account.cash}` : 'Loading...'}</h2>
       </div>
 
@@ -141,7 +160,7 @@ const Dashboard = () => {
     <table class="table">
      
      <thead>
-     <tr className="table-dark">
+     <tr className="table bg-warning">
                  <td colSpan="5">Recent Trades</td>
                </tr>
        <tr className="table-dark">
@@ -175,10 +194,11 @@ const Dashboard = () => {
     <div class="col">
     <table class="table">
         <thead>
-        <tr className="table-dark">
-                 <td colSpan="6">Account Info</td>
+        <tr className="table bg-warning">
+                 <td colSpan="7">Account Info</td>
                </tr>
           <tr className="table-dark">
+            <th scope="col"></th>
             <th scope="col">Symbol</th>
             <th scope="col">Quantity</th>
             <th scope="col">Cost Basis</th>
@@ -190,6 +210,7 @@ const Dashboard = () => {
         <tbody id="AssetCall">
           {dogePosition ? (
             <tr>
+              <td><im src="doge.png"/></td>
               <td> {dogePosition.symbol}</td>
               <td>{dogePosition.qty}</td>
               <td>${dogePosition.cost_basis}</td>
@@ -235,7 +256,7 @@ function formatTimestamp(timestamp) {
   const minutes = ('0' + date.getMinutes()).slice(-2);
   const seconds = ('0' + date.getSeconds()).slice(-2);
 
-  const formattedTime = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+  const formattedTime = `${month}/${day}/${year} ${hours}:${minutes}:${seconds}`;
   return formattedTime;
 }
 
