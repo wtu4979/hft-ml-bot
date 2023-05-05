@@ -161,7 +161,7 @@ const Dashboard = () => {
                  <td>{trade.symbol}</td>
                  <td>{trade.side}</td>
                  <td>{trade.qty}</td>
-                 <td>{trade.filled_avg_price}</td>
+                 <td>${trade.filled_avg_price}</td>
                  <td>{formatTimestamp(trade.submitted_at)}</td>
                      </tr>
                ))}
@@ -192,9 +192,9 @@ const Dashboard = () => {
             <tr>
               <td> {dogePosition.symbol}</td>
               <td>{dogePosition.qty}</td>
-              <td>{dogePosition.cost_basis}</td>
-              <td> {dogePosition.current_price}</td>
-              <td> {dogePosition.lastday_price}</td>
+              <td>${dogePosition.cost_basis}</td>
+              <td> ${dogePosition.current_price}</td>
+              <td> ${dogePosition.lastday_price}</td>
               <td>{dogePosition.change_today}</td>
             </tr>
           ) : (<tr>
