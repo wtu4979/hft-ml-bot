@@ -8,7 +8,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
-
+import dogeImage from './doge.png'
 
 
 
@@ -153,80 +153,86 @@ const Dashboard = () => {
         <h2>{account ? `$${account.cash}` : 'Loading...'}</h2>
       </div>
 
+//////////////////////////////
+      <div className="container text-center" style={{display: 'flex', justifyContent: 'center'}}>
+        <div className="col-6" style={{flex: 1}}>
+          <table className="table">
 
-      <div class="container text-center">
-  <div class="row">
-    <div class="col">
-    <table class="table">
-     
-     <thead>
-     <tr className="table bg-warning">
-                 <td colSpan="5">Recent Trades</td>
-               </tr>
-       <tr className="table-dark">
-         <th scope="col">Symbol</th>
-         <th scope="col">Trade</th>
-         <th scope="col">Shares</th>
-         <th scope="col">Share Price</th>
-         <th scope="col">Last Trade time</th>
-       </tr>
-     </thead>   
-   
-     
-       {trades ? (
-             <tbody id="assets">
-               {trades.map((trade, index) => (
-                 <tr key={index}>
-                 <td>{trade.symbol}</td>
-                 <td>{trade.side}</td>
-                 <td>{trade.qty}</td>
-                 <td>${trade.filled_avg_price}</td>
-                 <td>{formatTimestamp(trade.submitted_at)}</td>
-                     </tr>
-               ))}
-             </tbody>
-           ) : 'Loading...'}
-   
-   
-   
-   </table>
-    </div>
-    <div class="col">
-    <table class="table">
-        <thead>
-        <tr className="table bg-warning">
-                 <td colSpan="7">Account Info</td>
-               </tr>
-          <tr className="table-dark">
-            <th scope="col"></th>
-            <th scope="col">Symbol</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Cost Basis</th>
-            <th scope="col">Current Price</th>
-            <th scope="col">Last Day Price</th>
-            <th scope="col">Change Today</th>
-          </tr>
-        </thead>
-        <tbody id="AssetCall">
-          {dogePosition ? (
-            <tr>
-              <td><im src="doge.png"/></td>
-              <td> {dogePosition.symbol}</td>
-              <td>{dogePosition.qty}</td>
-              <td>${dogePosition.cost_basis}</td>
-              <td> ${dogePosition.current_price}</td>
-              <td> ${dogePosition.lastday_price}</td>
-              <td>{dogePosition.change_today}</td>
+            <thead>
+            <tr className="table bg-warning">
+              <td colSpan="5">Recent Trades</td>
             </tr>
-          ) : (<tr>
-            <th scope="row">1</th>
-            <td> Loading</td>
-          </tr>)}
-        </tbody>
-      </table>
-    </div>
- 
-  </div>
+            <tr className="table-dark">
+              <th scope="col">Symbol</th>
+              <th scope="col">Trade</th>
+              <th scope="col">Shares</th>
+              <th scope="col">Share Price</th>
+              <th scope="col">Last Trade time</th>
+            </tr>
+            </thead>
+
+
+            {trades ? (
+                <tbody id="assets">
+                {trades.map((trade, index) => (
+                    <tr key={index}>
+                      <td>{trade.symbol}</td>
+                      <td>{trade.side}</td>
+                      <td>{trade.qty}</td>
+                      <td>${trade.filled_avg_price}</td>
+                      <td>{formatTimestamp(trade.submitted_at)}</td>
+                    </tr>
+                ))}
+                </tbody>
+            ) : 'Loading...'}
+
+
+          </table>
+        </div>
+
+        <div className="col-6">
+          <div className="col-12">
+             <table className="table">
+            <thead>
+            <tr className="table bg-warning">
+              <td colSpan="7">Account Info</td>
+            </tr>
+            <tr className="table-dark">
+              <th scope="col"></th>
+              <th scope="col">Symbol</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Cost Basis</th>
+              <th scope="col">Current Price</th>
+              <th scope="col">Last Day Price</th>
+              <th scope="col">Change Today</th>
+            </tr>
+            </thead>
+            <tbody id="AssetCall">
+            {dogePosition ? (
+                <tr>
+                  <td>
+                    <im src="doge.png"/>
+                  </td>
+                  <td> {dogePosition.symbol}</td>
+                  <td>{dogePosition.qty}</td>
+                  <td>${dogePosition.cost_basis}</td>
+                  <td> ${dogePosition.current_price}</td>
+                  <td> ${dogePosition.lastday_price}</td>
+                  <td>{dogePosition.change_today}</td>
+                </tr>
+            ) : (<tr>
+              <th scope="row">1</th>
+              <td> Loading</td>
+            </tr>)}
+            </tbody>
+          </table>
+          </div>
+          <div className="col-12">
+            <img src={dogeImage} className="img-fluid" alt="Responsive image"/>
+          </div>
+        </div>
+
+
 </div>
 
 
